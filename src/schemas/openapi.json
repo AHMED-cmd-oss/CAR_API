@@ -1,0 +1,246 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Car system API.",
+    "description": "Managing car.",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "Car_info",
+      "description": "All operation in system"
+    }
+  ],
+  "externalDocs": {
+    "url": "https://www.youtube.com/@NerdiCoda",
+    "description": "My Car API"
+  },
+  "paths": {
+    "/cars": {
+      "get": {
+        "tags": [
+          "Car_info"
+        ],
+        "summary": "Retrieve all cars",
+        "description": "Returns a list of cars.",
+        "responses": {
+          "200": {
+            "description": "Response was successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/carResult"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Car_info"
+        ],
+        "summary": "Create a new car",
+        "description": "Add a new car to the system.",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/carCommand"
+        },
+        "responses": {
+          "201": {
+            "description": "Car was created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/carResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cars/{id}": {
+      "get": {
+        "tags": [
+          "Car_info"
+        ],
+        "summary": "Get car by ID",
+        "description": "Retrieve a specific car by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Car retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/carResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/notFoundError"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Car_info"
+        ],
+        "summary": "Update car by ID",
+        "description": "Modify car details.",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/carCommand"
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Car successfully updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/carResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/notFoundError"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Car_info"
+        ],
+        "summary": "Delete car by ID",
+        "description": "Remove a car from the system using its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Car successfully deleted."
+          },
+          "404": {
+            "$ref": "#/components/responses/notFoundError"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "carCommand": {
+        "description": "Command to add Car in right way.",
+        "type": "object",
+        "required": [
+          "brand",
+          "model",
+          "year"
+        ],
+        "properties": {
+          "brand": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "year": {
+            "type": "number"
+          }
+        }
+      },
+      "carResult": {
+        "description": "Result of request",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/carCommand"
+          },
+          {
+            "type": "object",
+            "required": [
+              "id",
+              "brand",
+              "model",
+              "year"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "brand": {
+                "type": "string"
+              },
+              "model": {
+                "type": "string"
+              },
+              "year": {
+                "type": "number"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "requestBodies": {
+      "carCommand": {
+        "description": "Request body for Car system",
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/carCommand"
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "notFoundError": {
+        "description": "Car not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Car not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

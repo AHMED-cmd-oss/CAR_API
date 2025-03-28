@@ -1,0 +1,44 @@
+components:
+  schemas:
+    
+    carCommand:
+      description: Command to add Car in right way.
+      type: object
+      required: 
+        - brand
+        - model
+        - year
+      properties:
+        brand:
+          type: string
+        model:
+          type: string
+        year:
+          type: number
+    carResult:
+      description: Result of request
+      allOf:
+        - $ref: "#/components/schemas/carCommand"
+        - type: object
+          required:
+            - id
+            - brand
+            - model
+            - year
+          properties:
+            id:
+              type: string
+            brand:
+              type: string
+            model:
+              type: string
+            year:
+              type: number
+  requestBodies:
+    carCommand:
+      description: Request body for Car system
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/carCommand"

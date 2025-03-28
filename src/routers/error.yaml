@@ -1,0 +1,12 @@
+components:
+   responses:  
+     notFoundError:
+          description: Car not found
+          content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message: 
+                      type: string
+                      example: "Car not found"  
